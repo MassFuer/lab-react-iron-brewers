@@ -1,15 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function AddBeerPage() {
+function AddBeerPage({ handleAddBeer }) {
   // State variables to store the values of the form inputs. You can leave these as they are.
-  const [name, setName] = useState("");
-  const [tagline, setTagline] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [firstBrewed, setFirstBrewed] = useState("");
-  const [brewersTips, setBrewersTips] = useState("");
+  const [name, setName] = useState("d");
+  const [tagline, setTagline] = useState("d");
+  const [description, setDescription] = useState("d");
+  const [imageUrl, setImageUrl] = useState("d");
+  const [firstBrewed, setFirstBrewed] = useState("d");
+  const [brewersTips, setBrewersTips] = useState("d");
   const [attenuationLevel, setAttenuationLevel] = useState(0);
-  const [contributedBy, setContributedBy] = useState("");
+  const [contributedBy, setContributedBy] = useState("d");
 
   // Handler functions for the form inputs. You can leave these as they are.
   const handleName = (e) => setName(e.target.value);
@@ -21,20 +22,32 @@ function AddBeerPage() {
   const handleAttenuationLevel = (e) => setAttenuationLevel(e.target.value);
   const handleContributedBy = (e) => setContributedBy(e.target.value);
 
-
-
+  const navigate = useNavigate();
   // TASK:
   // 1. Create a function to handle the form submission and send the form data to the Beers API to create a new beer.
   // 2. Use axios to make a POST request to the Beers API.
   // 3. Once the beer is created, navigate the user to the page showing the list of all beers.
-
-
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const newBeer = {
+      name,
+      tagline,
+      description,
+      imageUrl,
+      firstBrewed,
+      brewersTips,
+      attenuationLevel,
+      contributedBy,
+    };
+    await handleAddBeer(newBeer);
+    navigate("/beers");
+  }
 
   // Structure and the content of the page showing the form for adding a new beer. You can leave this as it is.
   return (
     <>
       <div className="d-inline-flex flex-column w-100 p-4">
-        <form>
+        <form onSubmit={handleSubmit}>
           <label>Name</label>
           <input
             className="form-control mb-4"
